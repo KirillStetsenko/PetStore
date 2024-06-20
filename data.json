@@ -1,0 +1,47 @@
+[
+  {
+    "id": 1001,
+    "title": "Nestle kitty food",
+    "description": "Healthy food for your cat",
+    "price": 59.99,
+    "img": "./assets/catFood1.jpg",
+    "available": 6,
+    "rating": 5
+  },
+  {
+    "id": 1002,
+    "title": "Kitty Purina",
+    "description": "Just do it!",
+    "price": 75.99,
+    "img": "assets/catFood2.jpg",
+    "available": 3,
+    "rating": 4
+  },
+  {
+    "id": 1003,
+    "title": "Heathy food",
+    "description": "Your cat will be happy!",
+    "price": 88.5,
+    "img": "assets/catFood3.jpg",
+    "available": 0,
+    "rating": 3
+  },
+  {
+    "id": 1004,
+    "title": "Dog whisple",
+    "description": "Healthy food for your dog",
+    "price": 98.32,
+    "img": "assets/catFood4.jpg",
+    "available": 2,
+    "rating": 2
+  },
+  {
+    "id": 1005,
+    "title": "Cat food",
+    "description": "Let your cat try some delicious!",
+    "price": 59.35,
+    "img": "assets/catFood5.jpg",
+    "available": 10,
+    "rating": 1
+  }
+]
