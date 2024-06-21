@@ -5,15 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pet Store</title>
     <link rel="stylesheet" href="reset.css" />
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="mainPage.css" />
+    <link rel="stylesheet" href="cart.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap"
       rel="stylesheet"
     />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap"
       rel="stylesheet"
@@ -22,7 +21,6 @@
   <body>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script></script>
 
     <div id="app">
       <div class="wrapper">
@@ -34,10 +32,92 @@
             <div class="cartLogo" v-on:click="cartToggle">
               <img src="assets/cartLogo.jpg" alt="cartLogo" width="60" />
             </div>
-            <div v-if="cart.length" class="cartCount">{{cart.length}}</div>
+            <div v-if="cart.length" class="cartCount">{{ cart.length }}</div>
           </div>
         </header>
-        <div v-if="showCart" class="cartPage">Cart</div>
+        <div v-if="showCart" class="cartPage">
+          <div class="cartWrapper">
+            <div class="titleForm">
+              <h2 class="title">Order form</h2>
+              <div class="firstName">
+                <strong>FirstName: </strong>
+                <input
+                  type="text"
+                  v-model="order.firstName"
+                  placeholder="Tim"
+                />
+              </div>
+              <div class="lastName">
+                <strong>LastName: </strong>
+                <input
+                  type="text"
+                  placeholder="Roth"
+                  v-model="order.lastName"
+                />
+              </div>
+              <div class="address">
+                <strong>Address: </strong>
+                <input
+                  type="text"
+                  placeholder="Baker St. 124"
+                  v-model="order.address"
+                />
+              </div>
+              <div class="city">
+                <strong>City: </strong>
+                <input
+                  type="text"
+                  placeholder="Los Angeles"
+                  v-model="order.city"
+                />
+              </div>
+              <div class="state">
+                <strong>State: </strong>
+                <select
+                  class="select"
+                  name="select"
+                  id="select"
+                  v-model="order.state"
+                >
+                  <option v-for="(state, key) in states" v-bind:value="key">
+                    {{ state }}
+                  </option>
+                </select>
+              </div>
+              <div class="zip">
+                <strong>Zip: </strong>
+                <input type="text" placeholder="57863" v-model="order.zip" />
+              </div>
+              <div class="gift">
+                <strong>Gift: </strong>
+                <div class="giftBlock">
+                  <input type="checkbox" id="giftCheck" v-model="order.gift" />
+                  <label for="giftCheck"></label>
+                </div>
+              </div>
+              <div class="method">
+                <div>
+                  <strong>Method: </strong>
+                </div>
+                <label for="home">Home</label>
+                <input
+                  type="radio"
+                  value="Home"
+                  name="method"
+                  v-model="order.method"
+                />
+                <label for="business">Business</label>
+                <input
+                  type="radio"
+                  value="Business"
+                  name="method"
+                  v-model="order.method"
+                />
+              </div>
+              <button class="submit" @click="submit">Submit</button>
+            </div>
+          </div>
+        </div>
         <main v-else>
           <div v-for="product in products" class="productCard">
             <div class="wrap">
@@ -50,19 +130,21 @@
                 />
               </div>
               <div class="productDataBlock">
-                <div class="productTitle">{{product.title}}</div>
-                <div class="productDescription">{{product.description}}</div>
-                <div class="productPrice">{{product.price | formatPrice}}</div>
+                <div class="productTitle">{{ product.title }}</div>
+                <div class="productDescription">{{ product.description }}</div>
+                <div class="productPrice">
+                  {{ product.price | formatPrice }}
+                </div>
                 <div class="productRating">
                   <span
                     v-for="n in 5"
-                    v-bind:class="{'active': checkRating(n, product.rating)}"
+                    v-bind:class="{ active: checkRating(n, product.rating) }"
                     >*</span
                   >
                 </div>
                 <div class="productAvailable">
                   <span>Available: </span>
-                  <span class="availableValue"> {{product.available}} </span>
+                  <span class="availableValue">{{ product.available }}</span>
                 </div>
               </div>
             </div>
@@ -75,11 +157,7 @@
               >
                 Add to Cart
               </button>
-              <button
-                class="addToCartButton disabled"
-                v-else="product.available"
-                disabled
-              >
+              <button class="addToCartButton disabled" v-else disabled>
                 Add to Cart
               </button>
             </div>
@@ -95,6 +173,22 @@
             products: [],
             cart: [],
             showCart: false,
+            order: {
+              firstName: "",
+              lastName: "",
+              address: "",
+              city: "",
+              state: "",
+              zip: "",
+              gift: false,
+              method: "Home",
+            },
+            states: {
+              AL: "Alabama",
+              AZ: "Arizona",
+              CA: "California",
+              NV: "Nevada",
+            },
           };
         },
 
@@ -106,7 +200,7 @@
         filters: {
           formatPrice(price) {
             if (!parseInt(price)) {
-              return "Error: uncorrect form price";
+              return "Error: incorrect form price";
             }
             return "$ " + price;
           },
@@ -115,7 +209,6 @@
           addProduct(product) {
             if (product.available > 0) {
               this.cart.push(product);
-
               product.available--;
             }
           },
@@ -133,6 +226,9 @@
           },
           cartToggle() {
             this.showCart = !this.showCart;
+          },
+          submit() {
+            alert("Submitted!");
           },
         },
       });
