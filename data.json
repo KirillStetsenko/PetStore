@@ -1,7 +1,7 @@
 [
   {
     "id": 1001,
-    "title": "Nestle kitty food",
+    "title": "Mew kitty food",
     "description": "Healthy food for your cat",
     "price": 59.99,
     "img": "./assets/catFood1.jpg",
@@ -19,7 +19,7 @@
   },
   {
     "id": 1003,
-    "title": "Heathy food",
+    "title": "Zupper food",
     "description": "Your cat will be happy!",
     "price": 88.5,
     "img": "assets/catFood3.jpg",

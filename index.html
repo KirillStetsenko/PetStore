@@ -119,6 +119,12 @@
           </div>
         </div>
         <main v-else>
+          <div>
+            Sort:
+
+            <button v-on:click="ascSortededProducts">↑</button>
+            <button v-on:click="descSortededProducts">↓</button>
+          </div>
           <div v-for="product in products" class="productCard">
             <div class="wrap">
               <div class="productImgBlock">
@@ -205,6 +211,8 @@
             return "$ " + price;
           },
         },
+        computed: {},
+
         methods: {
           addProduct(product) {
             if (product.available > 0) {
@@ -229,6 +237,38 @@
           },
           submit() {
             alert("Submitted!");
+          },
+          ascSortededProducts() {
+            if (this.products.length > 0) {
+              this.products = this.products.slice(0);
+
+              function compare(a, b) {
+                if (a.title.toLowerCase() < b.title.toLowerCase()) {
+                  return -1;
+                }
+                if (a.title.toLowerCase() > b.title.toLowerCase()) {
+                  return 1;
+                }
+                return 0;
+              }
+              return this.products.sort(compare);
+            }
+          },
+          descSortededProducts() {
+            if (this.products.length > 0) {
+              this.products = this.products.slice(0);
+
+              function compare(a, b) {
+                if (a.title.toLowerCase() < b.title.toLowerCase()) {
+                  return 1;
+                }
+                if (a.title.toLowerCase() > b.title.toLowerCase()) {
+                  return -1;
+                }
+                return 0;
+              }
+              return this.products.sort(compare);
+            }
           },
         },
       });
